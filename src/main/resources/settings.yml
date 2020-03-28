@@ -1,0 +1,36 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#  ____ ___.__   __               __________                    .__         #
+# |    |   \  |_/  |_____________ \______   \ ____ ___________  |__|______  #
+# |    |   /  |\   __\_  __ \__  \ |       _// __ \\____ \__  \ |  \_  __ \ #
+# |    |  /|  |_|  |  |  | \// __ \|    |   \  ___/|  |_> > __ \|  ||  | \/ #
+# |______/ |____/__|  |__|  (____  /____|_  /\___  >   __(____  /__||__|    #
+#                                \/       \/     \/|__|       \/            #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# |
+# SETTINGS CONFIGURATION FILE FOR ULTRAREPAIR BY DEMENG7215 #
+# This is where you can customize the functions of UltraRepair. #
+# Everything in this file should be clearly explained. For questions, use the support options. #
+# Comments gone? Check UltraRepair's GitHub page for configuration defaults.
+
+config-version: 1
+
+# Settings for hand repair.
+repair-hand:
+  # The cost.
+  cost: 10.5
+  # The cooldown, in seconds.
+  cooldown: 10
+  # The sound played on repair.
+  sound: "BLOCK_NOTE_BLOCK_PLING"
+
+# Settings for inventory repair.
+repair-all:
+  # Should UltraRepair charge per item, or charge one set cost for the entire inventory?
+  charge-per-item: false
+  # If the above is true, this is the cost deducted per item.
+  # If the above is false, this is the cost for the entire repair.
+  cost: 1000
+  # The cooldown, in seconds.
+  cooldown: 100
+  # The sound played on repair.
+  sound: "BLOCK_NOTE_BLOCK_PLING"

@@ -1,0 +1,45 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#  ____ ___.__   __               __________                    .__         #
+# |    |   \  |_/  |_____________ \______   \ ____ ___________  |__|______  #
+# |    |   /  |\   __\_  __ \__  \ |       _// __ \\____ \__  \ |  \_  __ \ #
+# |    |  /|  |_|  |  |  | \// __ \|    |   \  ___/|  |_> > __ \|  ||  | \/ #
+# |______/ |____/__|  |__|  (____  /____|_  /\___  >   __(____  /__||__|    #
+#                                \/       \/     \/|__|       \/            #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# |
+# LANGUAGE CONFIGURATION FILE FOR ULTRAREPAIR BY DEMENG7215 #
+# This is where you can customize the messages for UltraRepair. #
+# Everything in this file should be clearly explained. For questions, use the support options. #
+# Comments gone? Check UltraRepair's GitHub page for configuration defaults.
+
+config-version: 1
+
+# This is the prefix that will be displayed in front of every message UltraRepair sends.
+prefix: "&7[&1UltraRepair&7] &r"
+
+# The message that is sent if a repair command is executed by console.
+console: "&9You must be a player to execute that command!"
+
+# This message will be sent if the item cannot be repaired (eg. the item is a block).
+invalid-item: "&9That item cannot be repaired."
+
+# The message that is sent when there are no repairable items in the user's inventory.
+invalid-items: "&9There are no repairable items in your inventory."
+
+# The success message for hand repair.
+repaired-hand: "&9Successfully repaired the item in your hand."
+
+# The success message for inventory repair.
+repaired-all: "&9Successfully repaired everything in your inventory."
+
+# This message will be sent if the player does not have permission for the command.
+no-perms: "&9You do not have permission to do that."
+
+# The message that will be sent if the user cannot afford the repair.
+cannot-afford: "&9You do not have enough money to do that."
+
+# This message is sent when the player's cooldown is still active.
+cooldown-active: "&9You cannot do that for another &b%seconds% &9seconds."
+
+# The message that is sent when all files have been successfully reloaded.
+reloaded: "&9Files have been reloaded."
