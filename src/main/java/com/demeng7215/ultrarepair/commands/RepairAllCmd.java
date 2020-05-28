@@ -10,25 +10,25 @@ import java.util.Arrays;
 
 public class RepairAllCmd extends CustomCommand {
 
-	private UltraRepair i;
+  private final UltraRepair i;
 
-	public RepairAllCmd(UltraRepair i) {
-		super("repairall");
+  public RepairAllCmd(UltraRepair i) {
+    super("repairall");
 
-		this.i = i;
+    this.i = i;
 
-		setDescription("Repair all items in your inventory.");
-		setAliases(Arrays.asList("fixall", "repair-all", "fix-all"));
-	}
+    setDescription("Repair all items in your inventory.");
+    setAliases(Arrays.asList("fixall", "repair-all", "fix-all"));
+  }
 
-	@Override
-	protected void run(CommandSender sender, String[] args) {
+  @Override
+  protected void run(CommandSender sender, String[] args) {
 
-		if (!checkIsPlayer(sender, i.getMessages().getString("console"))) return;
+    if (!checkIsPlayer(sender, i.getMessages().getString("console"))) return;
 
-		if (!checkHasPerm("ultrarepair.repair.all", sender,
-				i.getMessages().getString("no-perms"))) return;
+    if (!checkHasPerm("ultrarepair.repair.all", sender, i.getMessages().getString("no-perms")))
+      return;
 
-		RepairUtils.repairAll((Player) sender);
-	}
+    RepairUtils.repairAll((Player) sender);
+  }
 }

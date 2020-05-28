@@ -10,37 +10,36 @@ import java.util.Arrays;
 
 public class RepairCmd extends CustomCommand {
 
-	private UltraRepair i;
+  private final UltraRepair i;
 
-	public RepairCmd(UltraRepair i) {
-		super("repair");
+  public RepairCmd(UltraRepair i) {
+    super("repair");
 
-		this.i = i;
+    this.i = i;
 
-		setDescription("Repair the item in your hand.");
-		setAliases(Arrays.asList("fix", "repair-hand", "fix-hand"));
-	}
+    setDescription("Repair the item in your hand.");
+    setAliases(Arrays.asList("fix", "repair-hand", "fix-hand"));
+  }
 
+  @Override
+  protected void run(CommandSender sender, String[] args) {
 
-	@Override
-	protected void run(CommandSender sender, String[] args) {
+    if (!checkIsPlayer(sender, i.getMessages().getString("console"))) return;
 
-		if (!checkIsPlayer(sender, i.getMessages().getString("console"))) return;
+    final Player p = (Player) sender;
 
-		final Player p = (Player) sender;
+    if (args.length == 1 && args[0].equalsIgnoreCase("all")) {
 
-		if (args.length == 1 && args[0].equalsIgnoreCase("all")) {
+      if (!checkHasPerm("ultrarepair.repair.all", sender, i.getMessages().getString("no-perms")))
+        return;
 
-			if (!checkHasPerm("ultrarepair.repair.all", sender,
-					i.getMessages().getString("no-perms"))) return;
+      RepairUtils.repairAll(p);
+      return;
+    }
 
-			RepairUtils.repairAll(p);
-			return;
-		}
+    if (!checkHasPerm("ultrarepair.repair.hand", sender, i.getMessages().getString("no-perms")))
+      return;
 
-		if (!checkHasPerm("ultrarepair.repair.hand", sender,
-				i.getMessages().getString("no-perms"))) return;
-
-		RepairUtils.repairHand(p);
-	}
+    RepairUtils.repairHand(p);
+  }
 }
