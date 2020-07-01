@@ -1,6 +1,8 @@
 # UltraRepair
+An advanced item repair/fix plugin featuring cooldowns, costs, bypass permissions, sounds, and more.
 
 ### Download
 https://www.spigotmc.org/resources/63035/
 
-Copyright © 2020 Demeng7215 - Modification of this software is allowed as long as it is for non-commercial use.
+### Copyright
+Copyright © 2020 Demeng C. - Modification of this software is allowed as long as it is for non-commercial use.

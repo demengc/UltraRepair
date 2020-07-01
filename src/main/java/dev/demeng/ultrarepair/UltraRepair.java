@@ -1,15 +1,17 @@
-package com.demeng7215.ultrarepair;
+package dev.demeng.ultrarepair;
 
-import com.demeng7215.demlib.DemLib;
-import com.demeng7215.demlib.api.Common;
-import com.demeng7215.demlib.api.DeveloperNotifications;
-import com.demeng7215.demlib.api.Registerer;
-import com.demeng7215.demlib.api.connections.SpigotUpdateChecker;
-import com.demeng7215.demlib.api.files.CustomConfig;
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.ultrarepair.commands.RepairAllCmd;
-import com.demeng7215.ultrarepair.commands.RepairCmd;
-import com.demeng7215.ultrarepair.commands.UltraRepairCmd;
+import dev.demeng.demlib.DemLib;
+import dev.demeng.demlib.api.Common;
+import dev.demeng.demlib.api.DeveloperNotifications;
+import dev.demeng.demlib.api.Registerer;
+import dev.demeng.demlib.api.commands.CommandSettings;
+import dev.demeng.demlib.api.connections.SpigotUpdateChecker;
+import dev.demeng.demlib.api.files.CustomConfig;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.ultrarepair.commands.RepairAllCmd;
+import dev.demeng.ultrarepair.commands.RepairCmd;
+import dev.demeng.ultrarepair.commands.UltraRepairCmd;
+import dev.demeng.ultrarepair.commands.subcommands.ReloadCmd;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
@@ -19,18 +21,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class UltraRepair extends JavaPlugin {
 
-  /* ERROR CODES
-  1: Failed to load files.
-  2: Outdated config.
-  3: Failed to hook into Vault.
-   */
-
   @Getter private static UltraRepair instance;
 
   @Getter private CustomConfig settingsFile, messagesFile;
 
   private static final int SETTINGS_VERSION = 1;
   private static final int MESSAGES_VERSION = 1;
+
+  @Getter private CommandSettings commandSettings;
 
   @Getter private Economy economy;
 
@@ -54,7 +52,13 @@ public class UltraRepair extends JavaPlugin {
     if (!loadFiles()) return;
 
     getLogger().info("Registering commands...");
+    this.commandSettings = new CommandSettings();
+    commandSettings.setNotPlayerMessage(getMessages().getString("console"));
+    commandSettings.setNoPermissionMessage(getMessages().getString("no-perms"));
+    commandSettings.setIncorrectUsageMessage("");
+
     Registerer.registerCommand(new UltraRepairCmd(this));
+    Registerer.registerCommand(new ReloadCmd(this));
     Registerer.registerCommand(new RepairCmd(this));
     Registerer.registerCommand(new RepairAllCmd(this));
 
@@ -68,16 +72,13 @@ public class UltraRepair extends JavaPlugin {
     }
 
     getLogger().info("Loading metrics...");
-    new Metrics(this);
+    new Metrics(this, 3712);
 
     getLogger().info("Checking for updates...");
     SpigotUpdateChecker.checkForUpdates(63035);
 
     MessageUtils.console(
-        "&aUltraRepair v"
-            + Common.getVersion()
-            + " by Demeng7215 "
-            + "has been successfully enabled!");
+        "&aUltraRepair v" + Common.getVersion() + " by Demeng " + "has been successfully enabled!");
   }
 
   @Override
@@ -85,7 +86,7 @@ public class UltraRepair extends JavaPlugin {
     MessageUtils.console(
         "&cUltraRepair v"
             + Common.getVersion()
-            + " by Demeng7215 "
+            + " by Demeng "
             + "has been successfully disabled.");
   }
 

@@ -1,7 +1,7 @@
-package com.demeng7215.ultrarepair.utils;
+package dev.demeng.ultrarepair.utils;
 
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.ultrarepair.UltraRepair;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.ultrarepair.UltraRepair;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -56,7 +56,8 @@ public class RepairUtils {
 
     p.playSound(
         p.getLocation(),
-        XSound.valueOf(i.getSettings().getString("repair-hand.sound")).parseSound(),
+        dev.demeng.xseries.XSound.valueOf(i.getSettings().getString("repair-hand.sound"))
+            .parseSound(),
         100F,
         100F);
 
@@ -122,7 +123,8 @@ public class RepairUtils {
 
     p.playSound(
         p.getLocation(),
-        XSound.valueOf(i.getSettings().getString("repair-all.sound")).parseSound(),
+        dev.demeng.xseries.XSound.valueOf(i.getSettings().getString("repair-all.sound"))
+            .parseSound(),
         100F,
         100F);
 

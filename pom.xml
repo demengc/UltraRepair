@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.demeng7215</groupId>
+    <groupId>dev.demeng</groupId>
     <artifactId>ultrarepair</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <packaging>jar</packaging>
 
     <name>UltraRepair</name>
@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>http://demeng7215.ga</url>
+    <url>http://demeng.dev/</url>
 
     <repositories>
         <repository>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -55,15 +55,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.demeng7215</groupId>
+            <groupId>dev.demeng</groupId>
             <artifactId>demlib</artifactId>
-            <version>4.0.0</version>
+            <version>4.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.5</version>
+            <version>1.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -102,11 +102,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>com.demeng7215.ultrarepair.shaded.metrics</shadedPattern>
+                                    <shadedPattern>dev.demeng.ultrarepair.shaded.bstats</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.demeng7215.demlib</pattern>
-                                    <shadedPattern>com.demeng7215.ultrarepair.shaded.demlib</shadedPattern>
+                                    <shadedPattern>dev.demeng.ultrarepair.shaded.demlib</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
