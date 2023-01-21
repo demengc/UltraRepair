@@ -1,0 +1,108 @@
+# -----------------------------------------------------------------------------
+#  ____ _____________
+# |    |   \______   \
+# |    |   /|       _/
+# |    |  / |    |   \
+# |______/  |____|_  /
+#                  \/
+# |
+# MENUS.YML - GUI configuration for the plugin.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
+
+config-version: 2
+
+# The repair hand confirmation menu.
+confirm-hand:
+  # The title of the menu.
+  title: "Confirm Repair Hand"
+  # The size of the menu. Must be between 9 and 54 and be a multiple of 9.
+  size: 45
+  # The confirm button.
+  confirm:
+    # The slots the button will be placed in. (First slot = 1)
+    slots:
+      - 11
+      - 12
+      - 13
+      - 20
+      - 21
+      - 22
+      - 29
+      - 30
+      - 31
+    # The material of the button.
+    material: "LIME_STAINED_GLASS_PANE"
+    # The display name of the button.
+    name: "&a&lConfirm Repair Hand"
+    # The lore of the button.
+    lore:
+      - "&7&m-----------------------------------"
+      - "&aCost: &f$%cost%"
+      - "&aCooldown: &f%cooldown%"
+      - "&7&m-----------------------------------"
+  # The cancel button.
+  cancel:
+    slots:
+      - 15
+      - 16
+      - 17
+      - 24
+      - 25
+      - 26
+      - 33
+      - 34
+      - 35
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&c&lCancel Repair Hand"
+    lore:
+      - "&7&m-----------------------------------"
+      - "&cCost: &f$%cost%"
+      - "&cCooldown: &f%cooldown%"
+      - "&7&m-----------------------------------"
+  # Menu fillers (decoration).
+  fillers:
+    background: "GRAY_STAINED_GLASS_PANE"
+
+# The repair all confirmation menu.
+confirm-all:
+  title: "Confirm Repair All"
+  size: 45
+  confirm:
+    slots:
+      - 11
+      - 12
+      - 13
+      - 20
+      - 21
+      - 22
+      - 29
+      - 30
+      - 31
+    material: "LIME_STAINED_GLASS_PANE"
+    name: "&a&lConfirm Repair All"
+    lore:
+      - "&7&m-----------------------------------"
+      - "&aCost: &f$%cost%"
+      - "&aCooldown: &f%cooldown%"
+      - "&7&m-----------------------------------"
+  cancel:
+    slots:
+      - 15
+      - 16
+      - 17
+      - 24
+      - 25
+      - 26
+      - 33
+      - 34
+      - 35
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&c&lCancel Repair All"
+    lore:
+      - "&7&m-----------------------------------"
+      - "&cCost: &f$%cost%"
+      - "&cCooldown: &f%cooldown%"
+      - "&7&m-----------------------------------"
+  fillers:
+    background: "GRAY_STAINED_GLASS_PANE"

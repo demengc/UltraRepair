@@ -1,36 +1,57 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  ____ ___.__   __               __________                    .__         #
-# |    |   \  |_/  |_____________ \______   \ ____ ___________  |__|______  #
-# |    |   /  |\   __\_  __ \__  \ |       _// __ \\____ \__  \ |  \_  __ \ #
-# |    |  /|  |_|  |  |  | \// __ \|    |   \  ___/|  |_> > __ \|  ||  | \/ #
-# |______/ |____/__|  |__|  (____  /____|_  /\___  >   __(____  /__||__|    #
-#                                \/       \/     \/|__|       \/            #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# -----------------------------------------------------------------------------
+#  ____ _____________
+# |    |   \______   \
+# |    |   /|       _/
+# |    |  / |    |   \
+# |______/  |____|_  /
+#                  \/
 # |
-# SETTINGS CONFIGURATION FILE FOR ULTRAREPAIR BY DEMENG #
-# This is where you can customize the functions of UltraRepair. #
-# Everything in this file should be clearly explained. For questions, use the support options. #
-# Comments gone? Check UltraRepair's GitHub page for configuration defaults.
+# SETTINGS.YML - General settings for the plugin.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
 
-config-version: 1
+config-version: 2
 
-# Settings for hand repair.
-repair-hand:
-  # The cost.
-  cost: 10.5
-  # The cooldown, in seconds.
-  cooldown: 10
-  # The sound played on repair.
-  sound: "BLOCK_NOTE_BLOCK_PLING"
+# The cooldown added for a player after repairing an item, in seconds.
+# Note that cooldowns do NOT persist across server restarts
+cooldown:
+  # The cooldown for hand repairs.
+  hand: 5
+  # The cooldown for inventory repairs.
+  all: 10
 
-# Settings for inventory repair.
-repair-all:
-  # Should UltraRepair charge per item, or charge one set cost for the entire inventory?
-  charge-per-item: false
-  # If the above is true, this is the cost deducted per item.
-  # If the above is false, this is the cost for the entire repair.
-  cost: 1000
-  # The cooldown, in seconds.
-  cooldown: 100
-  # The sound played on repair.
-  sound: "BLOCK_NOTE_BLOCK_PLING"
+# The sound played when a repair is completed.
+sound:
+  hand: "BLOCK_ANVIL_USE"
+  all: "BLOCK_ANVIL_USE"
+
+# The default, base cost for repairing an item.
+# Note that costs are IGNORED if you do not have Vault and an economy plugin installed.
+default-cost: 10.00
+
+# The additional cost multiplier for repairing an item, based on its durability.
+# The durability GAINED in a repair will be multiplied by this and ADDED to the base cost.
+# Example: If repairing 5 durability, and multiplier is 2, $10 will be ADDED to the base cost.
+durability-multiplier: 0.00
+
+# Items that are exceptions to the default cost. See below for examples.
+cost-exceptions:
+  # You can add unlimited exceptions, but they must be named differently. (Item1, Item2, etc...)
+  # ALL EXCEPTIONS MUST HAVE "material" AND "cost" VALUES.
+  # If you do not want a condition (ex. enchants), simply delete the section/line.
+  Item1:
+    # An exception for flint and steel.
+    material: "FLINT_AND_STEEL"
+    # The special cost to repair this item.
+    cost: 20.00
+    # Additional conditions for this exception are listed below.
+    # The flint and steel also must be named "Special Flint and Steel", in aqua (&b) color.
+    name: "&bSpecial Sword"
+    # Custom model data (Minecraft 1.14+) of 3 is required.
+    custom-model-data: 3
+    # A list of required enchantments and its level.
+    enchants:
+      # Unbreaking I
+      DURABILITY: 1
+      # Sharpness III
+      DAMAGE_ALL: 3
