@@ -11,7 +11,7 @@
 
   <name>UltraRepair</name>
 
-  <description>Advanced item repairing, with per-item customization, costs, cooldowns, and more.
+  <description>Advanced item repairing with per-item customization, costs, cooldowns, and more.
   </description>
   <properties>
     <java.version>1.8</java.version>

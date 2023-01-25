@@ -4,5 +4,5 @@ main: dev.demeng.ultrarepair.UltraRepair
 api-version: 1.13
 softdepend: [ Vault ]
 author: Demeng
-description: Advanced item repairing, with per-item customization, costs, cooldowns, and more.
+description: Advanced item repairing with per-item customization, costs, cooldowns, and more.
 website: https://demeng.dev/
