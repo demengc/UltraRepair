@@ -2,14 +2,7 @@ name: UltraRepair
 version: ${project.version}
 main: dev.demeng.ultrarepair.UltraRepair
 api-version: 1.13
-depend: [Vault]
+softdepend: [ Vault ]
 author: Demeng
-description: An advanced item repair/fix plugin featuring cooldowns, costs, bypass permissions, sounds, and more.
-website: http://demeng.dev/
-
-commands:
-  ultrarepair:
-  repair:
-    aliases: [fix, repair-hand, fix-hand]
-  repairall:
-    aliases: [fixall, repair-all, fix-all]
+description: Advanced item repairing with per-item customization, costs, cooldowns, and more.
+website: https://demeng.dev/

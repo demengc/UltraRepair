@@ -1,45 +1,48 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  ____ ___.__   __               __________                    .__         #
-# |    |   \  |_/  |_____________ \______   \ ____ ___________  |__|______  #
-# |    |   /  |\   __\_  __ \__  \ |       _// __ \\____ \__  \ |  \_  __ \ #
-# |    |  /|  |_|  |  |  | \// __ \|    |   \  ___/|  |_> > __ \|  ||  | \/ #
-# |______/ |____/__|  |__|  (____  /____|_  /\___  >   __(____  /__||__|    #
-#                                \/       \/     \/|__|       \/            #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# -----------------------------------------------------------------------------
+#  ____ _____________
+# |    |   \______   \
+# |    |   /|       _/
+# |    |  / |    |   \
+# |______/  |____|_  /
+#                  \/
 # |
-# LANGUAGE CONFIGURATION FILE FOR ULTRAREPAIR BY DEMENG #
-# This is where you can customize the messages for UltraRepair. #
-# Everything in this file should be clearly explained. For questions, use the support options. #
-# Comments gone? Check UltraRepair's GitHub page for configuration defaults.
+# MESSAGES.YML - Locale settings for the plugin.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
 
-config-version: 1
+config-version: 3
 
-# This is the prefix that will be displayed in front of every message UltraRepair sends.
-prefix: "&7[&1UltraRepair&7] &r"
+# The prefix displayed in front of every message.
+prefix: "&8[&9UltraRepair&8] &7"
 
-# The message that is sent if a repair command is executed by console.
-console: "&9You must be a player to execute that command!"
+# General command-related messages.
+commands.invalid-subcommand: "&7Invalid subcommand: &b{0}"
+commands.no-permission: "&7You do not have permission to execute this command."
+commands.error-occurred: "&7An error occurred while executing this command."
+commands.too-many-arguments: "&7Too many arguments! Correct usage: &b/{0}"
+commands.must-be-player: "&7You must be a player to use this command!"
 
-# This message will be sent if the item cannot be repaired (eg. the item is a block).
-invalid-item: "&9That item cannot be repaired."
+# When config files are successfully reloaded.
+reloaded: "&7Configuration files have been reloaded."
 
-# The message that is sent when there are no repairable items in the user's inventory.
-invalid-items: "&9There are no repairable items in your inventory."
+# If the item cannot be repaired (is a block, has full durability, etc.).
+invalid-item: "&7You cannot repair this item."
 
-# The success message for hand repair.
-repaired-hand: "&9Successfully repaired the item in your hand."
+# If there are no items to repair in the player's inventory.
+invalid-items: "&7There are no items to repair in your inventory."
 
-# The success message for inventory repair.
-repaired-all: "&9Successfully repaired everything in your inventory."
+# If the player's repair cooldown is still active.
+on-cooldown: "&7You must wait &b%time% &7before repairing again."
 
-# This message will be sent if the player does not have permission for the command.
-no-perms: "&9You do not have permission to do that."
+# If the player does not have enough money to repair.
+insufficient-funds: "&7You need &b$%cost% &7to repair this item."
 
-# The message that will be sent if the user cannot afford the repair.
-cannot-afford: "&9You do not have enough money to do that."
+# If the repair could not be confirmed for some reason.
+# This is usually because the repair cost has changed since the player has opened the confirm menu.
+confirm-failed: "&7Could not repair that item. Please try again."
 
-# This message is sent when the player's cooldown is still active.
-cooldown-active: "&9You cannot do that for another &b%seconds% &9seconds."
+# When the player's hand has been successfully repaired.
+repaired-hand: "&7The item in your hand has been repaired."
 
-# The message that is sent when all files have been successfully reloaded.
-reloaded: "&9Files have been reloaded."
+# When the player's inventory has been successfully repaired.
+repaired-all: "&7Your inventory has been repaired."

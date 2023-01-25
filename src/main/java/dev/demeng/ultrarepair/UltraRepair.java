@@ -1,119 +1,189 @@
 package dev.demeng.ultrarepair;
 
-import dev.demeng.demlib.DemLib;
-import dev.demeng.demlib.api.Common;
-import dev.demeng.demlib.api.DeveloperNotifications;
-import dev.demeng.demlib.api.Registerer;
-import dev.demeng.demlib.api.commands.CommandSettings;
-import dev.demeng.demlib.api.connections.SpigotUpdateChecker;
-import dev.demeng.demlib.api.files.CustomConfig;
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.ultrarepair.commands.RepairAllCmd;
-import dev.demeng.ultrarepair.commands.RepairCmd;
-import dev.demeng.ultrarepair.commands.UltraRepairCmd;
-import dev.demeng.ultrarepair.commands.subcommands.ReloadCmd;
+import dev.demeng.pluginbase.BaseSettings;
+import dev.demeng.pluginbase.Common;
+import dev.demeng.pluginbase.Schedulers;
+import dev.demeng.pluginbase.UpdateChecker;
+import dev.demeng.pluginbase.UpdateChecker.Result;
+import dev.demeng.pluginbase.YamlConfig;
+import dev.demeng.pluginbase.locale.reader.ConfigLocaleReader;
+import dev.demeng.pluginbase.plugin.BasePlugin;
+import dev.demeng.pluginbase.text.Text;
+import dev.demeng.ultrarepair.command.RepairCmd;
+import dev.demeng.ultrarepair.command.UltraRepairCmd;
+import dev.demeng.ultrarepair.manager.RepairManager;
+import java.io.IOException;
+import java.util.Locale;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.CommandHandler;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 
-public class UltraRepair extends JavaPlugin {
+public final class UltraRepair extends BasePlugin {
 
-  @Getter private static UltraRepair instance;
+  @Getter @Setter(AccessLevel.PACKAGE) private static UltraRepair instance;
 
-  @Getter private CustomConfig settingsFile, messagesFile;
+  @Getter private YamlConfig settingsFile;
+  @Getter private YamlConfig messagesFile;
+  @Getter private YamlConfig menusFile;
 
-  private static final int SETTINGS_VERSION = 1;
-  private static final int MESSAGES_VERSION = 1;
+  private static final int SETTINGS_VERSION = 2;
+  private static final int MESSAGES_VERSION = 3;
+  private static final int MENUS_VERSION = 1;
 
-  @Getter private CommandSettings commandSettings;
+  @Getter private boolean economyEnabled;
 
-  @Getter private Economy economy;
+  @Getter private RepairManager repairManager;
 
   @Override
-  public void onEnable() {
+  public void enable() {
 
-    instance = this;
-    DemLib.setPlugin(this);
-    MessageUtils.setPrefix("&7[&1UltraRepair&7] &r");
+    setInstance(this);
 
-    MessageUtils.consoleWithoutPrefix(
-        "Enabling UltraRepair...\n\n"
-            + "&1 ____ ___.__   __               __________                    .__        \n"
-            + "&1|    |   \\  |_/  |_____________ \\______   \\ ____ ___________  |__|______ \n"
-            + "&1|    |   /  |\\   __\\_  __ \\__  \\ |       _// __ \\\\____ \\__  \\ |  \\_  __ \\\n"
-            + "&1|    |  /|  |_|  |  |  | \\// __ \\|    |   \\  ___/|  |_> > __ \\|  ||  | \\/\n"
-            + "&1|______/ |____/__|  |__|  (____  /____|_  /\\___  >   __(____  /__||__|   \n"
-            + "&1                               \\/       \\/     \\/|__|       \\/           \n\n");
+    Text.coloredConsole("\n\n"
+        + "&1 ____ ___  __________ \n"
+        + "&1|    |   \\ \\______   \\\n"
+        + "&1|    |   /  |       _/\n"
+        + "&9|    |  /   |    |   \\\n"
+        + "&9|______/    |____|_  /\n"
+        + "&9                   \\/ \n");
 
-    MessageUtils.log("Loading configuration files...");
-    if (!loadFiles()) return;
-
-    getLogger().info("Registering commands...");
-    this.commandSettings = new CommandSettings();
-    commandSettings.setNotPlayerMessage(getMessages().getString("console"));
-    commandSettings.setNoPermissionMessage(getMessages().getString("no-perms"));
-    commandSettings.setIncorrectUsageMessage("");
-
-    Registerer.registerCommand(new UltraRepairCmd(this));
-    Registerer.registerCommand(new ReloadCmd(this));
-    Registerer.registerCommand(new RepairCmd(this));
-    Registerer.registerCommand(new RepairAllCmd(this));
-
-    getLogger().info("Registering listeners...");
-    DeveloperNotifications.enableNotifications("ca19af04-a156-482e-a35d-3f5f434975b5");
-
-    getLogger().info("Hooking into Vault...");
-    if (!setupEconomy()) {
-      MessageUtils.error(null, 3, "Failed to hook into Vault.", true);
+    getLogger().info("Loading configuration files...");
+    if (!loadFiles()) {
       return;
     }
 
+    getLogger().info("Initializing base settings...");
+    updateBaseSettings();
+    getTranslator().add(new ConfigLocaleReader(getMessages(), Locale.ENGLISH));
+
+    getLogger().info("Checking economy integration...");
+    if (!checkEconomy()) {
+      getLogger().warning("Vault and/or economy plugin not found! All repairs will be free.");
+    }
+
+    getLogger().info("Loading repair manager...");
+    repairManager = new RepairManager(this);
+
+    getLogger().info("Registering commands...");
+    final CommandHandler commandHandler = BukkitCommandHandler.create(this);
+    commandHandler.register(new UltraRepairCmd(this));
+    commandHandler.register(new RepairCmd(this));
+
+    getLogger().info("Registering listeners...");
+
     getLogger().info("Loading metrics...");
-    new Metrics(this, 3712);
+    loadMetrics();
 
     getLogger().info("Checking for updates...");
-    SpigotUpdateChecker.checkForUpdates(63035);
+    checkUpdates();
 
-    MessageUtils.console(
-        "&aUltraRepair v" + Common.getVersion() + " by Demeng " + "has been successfully enabled!");
+    Text.console("&aUltraRepair v" + Common.getVersion()
+        + " by Demeng has been enabled.");
   }
 
   @Override
-  public void onDisable() {
-    MessageUtils.console(
-        "&cUltraRepair v"
-            + Common.getVersion()
-            + " by Demeng "
-            + "has been successfully disabled.");
+  public void disable() {
+    Text.console("&cUltraRepair v" + Common.getVersion() + " by Demeng has been disabled.");
   }
 
   private boolean loadFiles() {
 
+    String currentlyLoading = "configuration files";
+
     try {
-      settingsFile = new CustomConfig("settings.yml");
-      messagesFile = new CustomConfig("messages.yml");
+      currentlyLoading = "settings.yml";
+      settingsFile = new YamlConfig(currentlyLoading);
 
-    } catch (final Exception ex) {
-      MessageUtils.error(ex, 1, "Failed to load configuration files.", true);
+      if (settingsFile.isOutdated(SETTINGS_VERSION)) {
+        Common.error(null, "Outdated settings.yml file.", true);
+        return false;
+      }
+
+      currentlyLoading = "messages.yml";
+      messagesFile = new YamlConfig(currentlyLoading);
+
+      if (messagesFile.isOutdated(MESSAGES_VERSION)) {
+        Common.error(null, "Outdated messages.yml file.", true);
+        return false;
+      }
+
+      currentlyLoading = "menus.yml";
+      menusFile = new YamlConfig(currentlyLoading);
+
+      if (menusFile.isOutdated(MENUS_VERSION)) {
+        Common.error(null, "Outdated menus.yml file.", true);
+        return false;
+      }
+
+    } catch (IOException | InvalidConfigurationException ex) {
+      Common.error(ex, "Failed to load " + currentlyLoading + ".", true);
       return false;
     }
-
-    if (!settingsFile.configUpToDate(SETTINGS_VERSION)) {
-      MessageUtils.error(null, 2, "Outdated settings file.", true);
-      return false;
-    }
-
-    if (!messagesFile.configUpToDate(MESSAGES_VERSION)) {
-      MessageUtils.error(null, 2, "Outdated messages file.", true);
-      return false;
-    }
-
-    MessageUtils.setPrefix(getMessages().getString("prefix"));
 
     return true;
+  }
+
+  public void updateBaseSettings() {
+    setBaseSettings(new BaseSettings() {
+      @Override
+      public String prefix() {
+        return getMessages().getString("prefix");
+      }
+    });
+  }
+
+  private boolean checkEconomy() {
+
+    if (getServer().getPluginManager().getPlugin("Vault") == null) {
+      return false;
+    }
+
+    final RegisteredServiceProvider<Economy> provider =
+        getServer().getServicesManager().getRegistration(Economy.class);
+
+    if (provider == null) {
+      return false;
+    }
+
+    economyEnabled = true;
+    return true;
+  }
+
+  private void loadMetrics() {
+    try {
+      new Metrics(this, 3712);
+    } catch (IllegalStateException ex) {
+      if (ex.getMessage().equals("bStats Metrics class has not been relocated correctly!")) {
+        getLogger().warning("bStats has not been relocated, skipping.");
+      }
+    }
+  }
+
+  private void checkUpdates() {
+    Schedulers.async().run(() -> {
+      final UpdateChecker checker = new UpdateChecker(63035);
+
+      if (checker.getResult() == Result.OUTDATED) {
+        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
+        Text.coloredConsole("&aA newer version of UltraRepair is available!");
+        Text.coloredConsole("&aCurrent version: &r" + Common.getVersion());
+        Text.coloredConsole("&aLatest version: &r" + checker.getLatestVersion());
+        Text.coloredConsole("&aGet the update: &rhttps://spigotmc.org/resources/63035");
+        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
+        return;
+      }
+
+      if (checker.getResult() == Result.ERROR) {
+        getLogger().warning("Failed to check for updates.");
+      }
+    });
   }
 
   public FileConfiguration getSettings() {
@@ -124,16 +194,7 @@ public class UltraRepair extends JavaPlugin {
     return messagesFile.getConfig();
   }
 
-  private boolean setupEconomy() {
-    if (getServer().getPluginManager().getPlugin("Vault") == null) {
-      return false;
-    }
-    RegisteredServiceProvider<Economy> rsp =
-        getServer().getServicesManager().getRegistration(Economy.class);
-    if (rsp == null) {
-      return false;
-    }
-    economy = rsp.getProvider();
-    return economy != null;
+  public FileConfiguration getMenus() {
+    return menusFile.getConfig();
   }
 }
