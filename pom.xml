@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.0.0</version>
+  <version>4.1.0</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.19.3-R0.1-SNAPSHOT</version>
+      <version>1.20.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -54,13 +54,13 @@
     <dependency>
       <groupId>com.github.Demeng7215.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>507ff5e21b</version>
+      <version>f4a63bc528</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.Demeng7215</groupId>
       <artifactId>PluginBase-Lamp</artifactId>
-      <version>bfed2e21a6</version>
+      <version>1a71e71107</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
