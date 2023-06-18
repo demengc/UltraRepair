@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.1.0</version>
+  <version>4.1.1</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>com.github.Demeng7215.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>f4a63bc528</version>
+      <version>8b0ed7dea6</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
