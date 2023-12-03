@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.1.2</version>
+  <version>4.1.3</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -17,7 +17,7 @@
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  <url>http://demeng.dev/</url>
+  <url>https://demeng.dev/</url>
 
   <repositories>
     <repository>
@@ -60,25 +60,25 @@
     <dependency>
       <groupId>com.github.Demeng7215</groupId>
       <artifactId>PluginBase-Lamp</artifactId>
-      <version>249f97664c</version>
+      <version>2ed91a70e2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bstats</groupId>
       <artifactId>bstats-bukkit</artifactId>
-      <version>3.0.0</version>
+      <version>3.0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>23.1.0</version>
+      <version>24.1.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.24</version>
+      <version>1.18.30</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -110,12 +110,12 @@
               <minimizeJar>true</minimizeJar>
               <relocations>
                 <relocation>
-                  <pattern>revxrsal.commands</pattern>
-                  <shadedPattern>dev.demeng.ultrarepair.shaded.pluginbase.commands</shadedPattern>
-                </relocation>
-                <relocation>
                   <pattern>dev.demeng.pluginbase</pattern>
                   <shadedPattern>dev.demeng.ultrarepair.shaded.pluginbase</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>revxrsal.commands</pattern>
+                  <shadedPattern>dev.demeng.ultrarepair.shaded.pluginbase.commands</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>org.bstats</pattern>
