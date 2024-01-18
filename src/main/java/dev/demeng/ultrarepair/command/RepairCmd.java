@@ -71,7 +71,7 @@ public class RepairCmd {
     if (confirmedCost == null) {
       new ConfirmMenu(Objects.requireNonNull(
           i.getMenus().getConfigurationSection("confirm-hand")),
-          i.getRepairManager().getHandCooldown(),
+          i.getRepairManager().getHandCooldown(p),
           finalCost,
           () -> attemptRepairHand(p, finalCost)).open(p);
       return;
@@ -120,7 +120,7 @@ public class RepairCmd {
     if (confirmedCost == null) {
       new ConfirmMenu(Objects.requireNonNull(
           i.getMenus().getConfigurationSection("confirm-all")),
-          i.getRepairManager().getAllCooldown(),
+          i.getRepairManager().getAllCooldown(p),
           finalCost,
           () -> attemptRepairAll(p, finalCost)).open(p);
       return;

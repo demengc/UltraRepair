@@ -10,7 +10,6 @@ import dev.demeng.ultrarepair.UltraRepair;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -21,15 +20,15 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class RepairManager {
 
-  public static final String COOLDOWN_BYPASS_PERMISSION = "ultrarepair.bypass.cooldown";
-  public static final String COST_BYPASS_PERMISSION = "ultrarepair.bypass.cost";
+  private static final String COOLDOWN_BYPASS_PERMISSION = "ultrarepair.bypass.cooldown";
+  private static final String COST_BYPASS_PERMISSION = "ultrarepair.bypass.cost";
 
   private final UltraRepair i;
   private final Map<Player, Long> cooldowns = new HashMap<>();
   private final Map<ItemStack, Double> costExceptions = new HashMap<>();
 
-  @Getter private long handCooldown;
-  @Getter private long allCooldown;
+  private long handCooldown;
+  private long allCooldown;
   private double defaultCost;
   private double durabilityCostMultiplier;
   private Sound handSound;
@@ -84,6 +83,24 @@ public class RepairManager {
     }
 
     return false;
+  }
+
+  public long getHandCooldown(Player p) {
+
+    if (p.hasPermission(COOLDOWN_BYPASS_PERMISSION)) {
+      return 0;
+    }
+
+    return handCooldown;
+  }
+
+  public long getAllCooldown(Player p) {
+
+    if (p.hasPermission(COOLDOWN_BYPASS_PERMISSION)) {
+      return 0;
+    }
+
+    return allCooldown;
   }
 
   public long getRemainingCooldownMs(Player p) {
