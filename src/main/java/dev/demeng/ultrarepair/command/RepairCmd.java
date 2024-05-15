@@ -5,6 +5,7 @@ import dev.demeng.pluginbase.Time;
 import dev.demeng.pluginbase.Time.DurationFormatter;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.ultrarepair.UltraRepair;
+import dev.demeng.ultrarepair.manager.RepairManager;
 import dev.demeng.ultrarepair.menu.ConfirmMenu;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,8 @@ public class RepairCmd {
           i.getMenus().getConfigurationSection("confirm-hand")),
           i.getRepairManager().getHandCooldown(p),
           finalCost,
+          RepairManager.isBypassingCooldown(p),
+          RepairManager.isBypassingCost(p),
           () -> attemptRepairHand(p, finalCost)).open(p);
       return;
     }
@@ -122,6 +125,8 @@ public class RepairCmd {
           i.getMenus().getConfigurationSection("confirm-all")),
           i.getRepairManager().getAllCooldown(p),
           finalCost,
+          RepairManager.isBypassingCooldown(p),
+          RepairManager.isBypassingCost(p),
           () -> attemptRepairAll(p, finalCost)).open(p);
       return;
     }

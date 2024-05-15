@@ -18,6 +18,10 @@ confirm-hand:
   title: "Confirm Repair Hand"
   # The size of the menu. Must be between 9 and 54 and be a multiple of 9.
   size: 45
+  # The text used for the %cost% placeholder if the player has the bypass permission.
+  bypassed-cost-placeholder: "0 &e(Cost Bypassed)"
+  # The text used for the %cooldown% placeholder if the player has the bypass permission.
+  bypassed-cooldown-placeholder: "0 seconds &e(Cooldown Bypassed)"
   # The confirm button.
   confirm:
     # The slots the button will be placed in. (First slot = 1)

@@ -12,12 +12,30 @@ import org.bukkit.configuration.ConfigurationSection;
 public class ConfirmMenu extends Menu {
 
   public ConfirmMenu(
-      ConfigurationSection section, long cooldown, double cost, Runnable confirmAction) {
+      ConfigurationSection section, long cooldown, double cost,
+      boolean bypassingCooldown, boolean bypassingCost, Runnable confirmAction) {
     super(section.getInt("size"), Objects.requireNonNull(section.getString("title")));
 
+    final String cooldownPlaceholder;
+    final String costPlaceholder;
+
+    if (bypassingCooldown) {
+      cooldownPlaceholder = section.getString("bypassed-cooldown-placeholder",
+          "0 seconds &e(Cooldown Bypassed)");
+    } else {
+      cooldownPlaceholder = Time.formatDuration(DurationFormatter.LONG, cooldown);
+    }
+
+    if (bypassingCost) {
+      costPlaceholder = section.getString("bypassed-cost-placeholder",
+          "0 &e(Cost Bypassed)");
+    } else {
+      costPlaceholder = String.format("%.2f", cost);
+    }
+
     final UnaryOperator<String> placeholders = str -> Text.colorize(str)
-        .replace("%cooldown%", Time.formatDuration(DurationFormatter.LONG, cooldown))
-        .replace("%cost%", String.format("%.2f", cost));
+        .replace("%cooldown%", cooldownPlaceholder)
+        .replace("%cost%", costPlaceholder);
 
     final ConfigurationSection confirmSection = section.getConfigurationSection("confirm");
     Objects.requireNonNull(confirmSection, "Confirm menu confirm section is null");

@@ -87,7 +87,7 @@ public class RepairManager {
 
   public long getHandCooldown(Player p) {
 
-    if (p.hasPermission(COOLDOWN_BYPASS_PERMISSION)) {
+    if (isBypassingCooldown(p)) {
       return 0;
     }
 
@@ -96,7 +96,7 @@ public class RepairManager {
 
   public long getAllCooldown(Player p) {
 
-    if (p.hasPermission(COOLDOWN_BYPASS_PERMISSION)) {
+    if (isBypassingCooldown(p)) {
       return 0;
     }
 
@@ -105,7 +105,7 @@ public class RepairManager {
 
   public long getRemainingCooldownMs(Player p) {
 
-    if (p.hasPermission(COOLDOWN_BYPASS_PERMISSION)) {
+    if (isBypassingCooldown(p)) {
       cooldowns.remove(p);
       return 0L;
     }
@@ -126,7 +126,7 @@ public class RepairManager {
 
   public double calculateItemCost(Player p, ItemStack stack) {
 
-    if (p.hasPermission(COST_BYPASS_PERMISSION)) {
+    if (isBypassingCost(p)) {
       return 0;
     }
 
@@ -195,5 +195,13 @@ public class RepairManager {
     }
 
     Sounds.playVanillaToPlayer(p, allSound, 1F, 1F);
+  }
+
+  public static boolean isBypassingCost(Player p) {
+    return p.hasPermission(COST_BYPASS_PERMISSION);
+  }
+
+  public static boolean isBypassingCooldown(Player p) {
+    return p.hasPermission(COOLDOWN_BYPASS_PERMISSION);
   }
 }
