@@ -72,6 +72,8 @@ confirm-hand:
 confirm-all:
   title: "Confirm Repair All"
   size: 45
+  bypassed-cost-placeholder: "0 &e(Cost Bypassed)"
+  bypassed-cooldown-placeholder: "0 seconds &e(Cooldown Bypassed)"
   confirm:
     slots:
       - 11
