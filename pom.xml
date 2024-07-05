@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.2.2</version>
+  <version>4.2.3</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -54,19 +54,19 @@
     <dependency>
       <groupId>com.github.demengc.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>a528639b55</version>
+      <version>0ca63465f0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase-Lamp</groupId>
       <artifactId>common</artifactId>
-      <version>e6d23a5b27</version>
+      <version>6fcd5fb3aa</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase-Lamp</groupId>
       <artifactId>bukkit</artifactId>
-      <version>e6d23a5b27</version>
+      <version>6fcd5fb3aa</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
