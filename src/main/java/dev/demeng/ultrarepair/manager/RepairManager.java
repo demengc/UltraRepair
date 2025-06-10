@@ -7,7 +7,9 @@ import dev.demeng.pluginbase.Sounds;
 import dev.demeng.pluginbase.lib.xseries.XSound;
 import dev.demeng.pluginbase.serialize.ItemSerializer;
 import dev.demeng.ultrarepair.UltraRepair;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import net.milkbowl.vault.economy.Economy;
@@ -74,9 +76,9 @@ public class RepairManager {
         && stack.getDurability() != 0;
   }
 
-  public boolean isAnyRepairable(PlayerInventory inv) {
+  public boolean hasAnyRepairable(Player p) {
 
-    for (ItemStack stack : inv.getContents()) {
+    for (ItemStack stack : getInventoryContents(p)) {
       if (isRepairable(stack)) {
         return true;
       }
@@ -149,11 +151,11 @@ public class RepairManager {
     return (cost + (stack.getDurability() * durabilityCostMultiplier)) * stack.getAmount();
   }
 
-  public double calculateInventoryCost(Player p, PlayerInventory inv) {
+  public double calculateInventoryCost(Player p) {
 
     double cost = 0;
 
-    for (ItemStack stack : inv.getContents()) {
+    for (ItemStack stack : getInventoryContents(p)) {
       cost += calculateItemCost(p, stack);
     }
 
@@ -185,10 +187,10 @@ public class RepairManager {
 
     if (i.isEconomyEnabled()) {
       final Economy eco = Services.get(Economy.class).orElseThrow(NullPointerException::new);
-      eco.withdrawPlayer(p, calculateInventoryCost(p, p.getInventory()));
+      eco.withdrawPlayer(p, calculateInventoryCost(p));
     }
 
-    for (ItemStack stack : p.getInventory().getContents()) {
+    for (ItemStack stack : getInventoryContents(p)) {
       if (isRepairable(stack)) {
         stack.setDurability((short) 0);
       }
@@ -203,5 +205,26 @@ public class RepairManager {
 
   public static boolean isBypassingCooldown(Player p) {
     return p.hasPermission(COOLDOWN_BYPASS_PERMISSION);
+  }
+
+  public static List<ItemStack> getInventoryContents(Player p) {
+    final List<ItemStack> contents = new ArrayList<>();
+
+    for (ItemStack stack : p.getInventory().getContents()) {
+      if (stack != null && stack.getType() != Material.AIR) {
+        contents.add(stack);
+      }
+    }
+
+    // MC 1.8's getContents() does not contain armor slots
+    if (Common.getServerMajorVersion() == 8) {
+      for (ItemStack stack : p.getInventory().getArmorContents()) {
+        if (stack != null && stack.getType() != Material.AIR) {
+          contents.add(stack);
+        }
+      }
+    }
+
+    return contents;
   }
 }

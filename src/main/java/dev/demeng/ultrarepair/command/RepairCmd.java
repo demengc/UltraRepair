@@ -94,7 +94,7 @@ public class RepairCmd {
 
     p.closeInventory();
 
-    if (!i.getRepairManager().isAnyRepairable(p.getInventory())) {
+    if (!i.getRepairManager().hasAnyRepairable(p)) {
       Text.tell(p, i.getMessages().getString("invalid-items"));
       return;
     }
@@ -110,7 +110,7 @@ public class RepairCmd {
 
     if (i.isEconomyEnabled()) {
       final Economy eco = Services.get(Economy.class).orElse(null);
-      cost = i.getRepairManager().calculateInventoryCost(p, p.getInventory());
+      cost = i.getRepairManager().calculateInventoryCost(p);
       if (!eco.has(p, cost)) {
         Text.tell(p, Objects.requireNonNull(i.getMessages().getString("insufficient-funds"))
             .replace("%cost%", String.format("%.2f", cost)));
