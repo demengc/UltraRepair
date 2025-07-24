@@ -1,5 +1,7 @@
 package dev.demeng.ultrarepair.manager;
 
+import de.tr7zw.changeme.nbtapi.NBT;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import dev.demeng.pluginbase.Common;
 import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.Services;
@@ -67,13 +69,46 @@ public class RepairManager {
   }
 
   public boolean isRepairable(ItemStack stack) {
-    return stack != null
-        && stack.getType() != Material.AIR
-        && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
-        && !stack.getType().isBlock()
-        && !stack.getType().isEdible()
-        && stack.getType().getMaxDurability() > 0
-        && stack.getDurability() != 0;
+    if(i.getServer().getPluginManager().isPluginEnabled("NBTAPI")) {
+      return stack != null
+              && stack.getType() != Material.AIR
+              && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
+              && !stack.getType().isBlock()
+              && !stack.getType().isEdible()
+              && stack.getType().getMaxDurability() > 0
+              && stack.getDurability() != 0
+              && !hasNoRepairTag(stack);
+    } else {
+      return stack != null
+              && stack.getType() != Material.AIR
+              && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
+              && !stack.getType().isBlock()
+              && !stack.getType().isEdible()
+              && stack.getType().getMaxDurability() > 0
+              && stack.getDurability() != 0;
+    }
+  }
+
+  /**
+   * Checks if an item has the 'ultrarepair:exclude' NBT tag.
+   *
+   * @param stack the item to check
+   * @return true if the item has the 'ultrarepair:exclude' NBT tag, false otherwise
+   */
+  private boolean hasNoRepairTag(ItemStack stack) {
+    if (stack == null) {
+      return false;
+    }
+
+    try {
+      // Use NBT.get to check for the tag with explicit return type
+      return NBT.get(stack, (nbt) -> {
+        return nbt.hasTag("ultrarepair:exclude");
+      });
+    } catch (Exception e) {
+      // If NBT-API fails, fallback to false (allow repair)
+      return false;
+    }
   }
 
   public boolean hasAnyRepairable(Player p) {

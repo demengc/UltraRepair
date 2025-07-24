@@ -87,6 +87,12 @@
       <version>1.18.30</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>de.tr7zw</groupId>
+      <artifactId>item-nbt-api</artifactId>
+      <version>2.15.1</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -99,6 +105,13 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.30</version>
+            </path>
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
       <plugin>
@@ -126,6 +139,10 @@
                 <relocation>
                   <pattern>org.bstats</pattern>
                   <shadedPattern>dev.demeng.ultrarepair.shaded.bstats</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                  <shadedPattern>dev.demeng.ultrarepair.shaded.nbtapi</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>

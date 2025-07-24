@@ -84,6 +84,12 @@ public final class UltraRepair extends BasePlugin {
     getLogger().info("Checking for updates...");
     checkUpdates();
 
+    if(this.getServer().getPluginManager().isPluginEnabled("NBTAPI")) {
+      getLogger().info("NBTAPI detected, enabling support.");
+    } else {
+      getLogger().warning("NBTAPI not found, some features may not work.");
+    }
+
     Text.console("&aUltraRepair v" + Common.getVersion()
         + " by Demeng has been enabled.");
   }
