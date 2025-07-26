@@ -48,13 +48,13 @@ public class UltraRepairCmd {
   @Subcommand("exclude")
   @CommandPermission("ultrarepair.exclude")
   public String runExclude(Player player) {
-    
+
     final ItemStack hand = player.getItemInHand();
-    
+
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
       return i.getMessages().getString("exclude-unexclude-invalid");
     }
-    
+
     i.getRepairManager().addExclusionTag(hand);
     return i.getMessages().getString("exclude-success");
   }
@@ -62,13 +62,13 @@ public class UltraRepairCmd {
   @Subcommand("unexclude")
   @CommandPermission("ultrarepair.exclude")
   public String runUnexclude(Player player) {
-    
+
     final ItemStack hand = player.getItemInHand();
-    
+
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
       return i.getMessages().getString("exclude-unexclude-invalid");
     }
-    
+
     i.getRepairManager().removeExclusionTag(hand);
     return i.getMessages().getString("unexclude-success");
   }
