@@ -106,26 +106,26 @@ public class RepairManager {
     return NBTEditor.contains(stack, EXCLUDE_NBT_TAG);
   }
 
-  public void addExclusionTag(ItemStack stack) {
+  public ItemStack addExclusionTag(ItemStack stack) {
 
     if (stack == null
         || stack.getType() == Material.AIR
         || NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
-      return;
+      return stack;
     }
 
-    NBTEditor.set(stack, EXCLUDE_NBT_TAG, true);
+    return NBTEditor.set(stack, true, EXCLUDE_NBT_TAG);
   }
 
-  public void removeExclusionTag(ItemStack stack) {
+  public ItemStack removeExclusionTag(ItemStack stack) {
 
     if (stack == null
         || stack.getType() == Material.AIR
         || !NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
-      return;
+      return stack;
     }
 
-    NBTEditor.set(stack, NBTEditor.DELETE, EXCLUDE_NBT_TAG);
+    return NBTEditor.set(stack, NBTEditor.DELETE, EXCLUDE_NBT_TAG);
   }
 
   public boolean hasAnyRepairable(Player p) {

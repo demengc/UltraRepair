@@ -20,7 +20,7 @@ public class UltraRepairCmd {
 
   private final UltraRepair i;
 
-  @DefaultFor("ultrarepair")
+  @DefaultFor({"ultrarepair", "ur"})
   public void runBase(CommandSender sender) {
     Text.coloredTell(sender, "&9&lRunning UltraRepair v" + Common.getVersion() + " by Demeng.");
     Text.coloredTell(sender, "&7Link: &bhttps://spigotmc.org/resources/63035/");
@@ -52,10 +52,14 @@ public class UltraRepairCmd {
     final ItemStack hand = player.getItemInHand();
 
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
-      return i.getMessages().getString("exclude-unexclude-invalid");
+      return i.getMessages().getString("exclude-invalid");
     }
 
-    i.getRepairManager().addExclusionTag(hand);
+    if (i.getRepairManager().hasExclusionTag(hand)) {
+      return i.getMessages().getString("exclude-already-excluded");
+    }
+
+    player.setItemInHand(i.getRepairManager().addExclusionTag(hand));
     return i.getMessages().getString("exclude-success");
   }
 
@@ -66,10 +70,14 @@ public class UltraRepairCmd {
     final ItemStack hand = player.getItemInHand();
 
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
-      return i.getMessages().getString("exclude-unexclude-invalid");
+      return i.getMessages().getString("unexclude-invalid");
     }
 
-    i.getRepairManager().removeExclusionTag(hand);
+    if (!i.getRepairManager().hasExclusionTag(hand)) {
+      return i.getMessages().getString("unexclude-not-excluded");
+    }
+
+    player.setItemInHand(i.getRepairManager().removeExclusionTag(hand));
     return i.getMessages().getString("unexclude-success");
   }
 }
