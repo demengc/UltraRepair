@@ -34,7 +34,7 @@ public final class UltraRepair extends BasePlugin {
   @Getter private YamlConfig menusFile;
 
   private static final int SETTINGS_VERSION = 2;
-  private static final int MESSAGES_VERSION = 3;
+  private static final int MESSAGES_VERSION = 4;
   private static final int MENUS_VERSION = 1;
 
   @Getter private boolean economyEnabled;
@@ -83,12 +83,6 @@ public final class UltraRepair extends BasePlugin {
 
     getLogger().info("Checking for updates...");
     checkUpdates();
-
-    if(this.getServer().getPluginManager().isPluginEnabled("NBTAPI")) {
-      getLogger().info("NBTAPI detected, enabling support.");
-    } else {
-      getLogger().warning("NBTAPI not found, some features may not work.");
-    }
 
     Text.console("&aUltraRepair v" + Common.getVersion()
         + " by Demeng has been enabled.");

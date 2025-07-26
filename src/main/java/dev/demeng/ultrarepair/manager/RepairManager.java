@@ -1,7 +1,5 @@
 package dev.demeng.ultrarepair.manager;
 
-import de.tr7zw.changeme.nbtapi.NBT;
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import dev.demeng.pluginbase.Common;
 import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.Services;
@@ -9,6 +7,7 @@ import dev.demeng.pluginbase.Sounds;
 import dev.demeng.pluginbase.lib.xseries.XSound;
 import dev.demeng.pluginbase.serialize.ItemSerializer;
 import dev.demeng.ultrarepair.UltraRepair;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +19,13 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 public class RepairManager {
 
   private static final String COOLDOWN_BYPASS_PERMISSION = "ultrarepair.bypass.cooldown";
   private static final String COST_BYPASS_PERMISSION = "ultrarepair.bypass.cost";
+
+  private static final String EXCLUDE_NBT_TAG = "ultrarepair:exclude";
 
   private final UltraRepair i;
   private final Map<Player, Long> cooldowns = new HashMap<>();
@@ -68,47 +68,64 @@ public class RepairManager {
         i.getSettings().getString("sound.all"))).orElse(XSound.BLOCK_ANVIL_USE).parseSound();
   }
 
-  public boolean isRepairable(ItemStack stack) {
-    if(i.getServer().getPluginManager().isPluginEnabled("NBTAPI")) {
-      return stack != null
-              && stack.getType() != Material.AIR
-              && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
-              && !stack.getType().isBlock()
-              && !stack.getType().isEdible()
-              && stack.getType().getMaxDurability() > 0
-              && stack.getDurability() != 0
-              && !hasNoRepairTag(stack);
-    } else {
-      return stack != null
-              && stack.getType() != Material.AIR
-              && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
-              && !stack.getType().isBlock()
-              && !stack.getType().isEdible()
-              && stack.getType().getMaxDurability() > 0
-              && stack.getDurability() != 0;
-    }
+  /**
+   * Checks if an item can potentially be repaired if it were damaged and not excluded from repair.
+   *
+   * @param stack The item to check
+   * @return true if the item can potentially be repaired, false otherwise
+   */
+  public boolean isPotentiallyRepairable(ItemStack stack) {
+    return stack != null
+        && stack.getType() != Material.AIR
+        && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
+        && !stack.getType().isBlock()
+        && !stack.getType().isEdible()
+        && stack.getType().getMaxDurability() > 0;
   }
 
   /**
-   * Checks if an item has the 'ultrarepair:exclude' NBT tag.
+   * Checks if an item is ready to be repaired (i.e., is valid, currently damaged, and does not have
+   * an exclusion tag).
    *
-   * @param stack the item to check
-   * @return true if the item has the 'ultrarepair:exclude' NBT tag, false otherwise
+   * @param stack The item to check
+   * @return true if the item is valid and damaged, false otherwise
+   * @see #isPotentiallyRepairable(ItemStack)
    */
-  private boolean hasNoRepairTag(ItemStack stack) {
-    if (stack == null) {
+  public boolean isRepairable(ItemStack stack) {
+    // stack#getDurability() is 0 when the item is not damaged.
+    return isPotentiallyRepairable(stack)
+        && !hasExclusionTag(stack)
+        && stack.getDurability() != 0;
+  }
+
+  public boolean hasExclusionTag(ItemStack stack) {
+    if (stack == null || stack.getType() == Material.AIR) {
       return false;
     }
 
-    try {
-      // Use NBT.get to check for the tag with explicit return type
-      return NBT.get(stack, (nbt) -> {
-        return nbt.hasTag("ultrarepair:exclude");
-      });
-    } catch (Exception e) {
-      // If NBT-API fails, fallback to false (allow repair)
-      return false;
+    return NBTEditor.contains(stack, EXCLUDE_NBT_TAG);
+  }
+
+  public void addExclusionTag(ItemStack stack) {
+
+    if (stack == null
+        || stack.getType() == Material.AIR
+        || NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
+      return;
     }
+
+    NBTEditor.set(stack, EXCLUDE_NBT_TAG, true);
+  }
+
+  public void removeExclusionTag(ItemStack stack) {
+
+    if (stack == null
+        || stack.getType() == Material.AIR
+        || !NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
+      return;
+    }
+
+    NBTEditor.set(stack, NBTEditor.DELETE, EXCLUDE_NBT_TAG);
   }
 
   public boolean hasAnyRepairable(Player p) {

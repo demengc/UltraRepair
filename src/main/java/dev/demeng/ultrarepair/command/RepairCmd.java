@@ -41,7 +41,7 @@ public class RepairCmd {
 
     p.closeInventory();
 
-    final ItemStack stack = p.getInventory().getItemInMainHand();
+    final ItemStack stack = p.getInventory().getItemInHand();
 
     if (!i.getRepairManager().isRepairable(stack)) {
       Text.tell(p, i.getMessages().getString("invalid-item"));

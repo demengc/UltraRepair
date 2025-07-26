@@ -10,7 +10,7 @@
 # Support: https://demeng.dev/discord
 # -----------------------------------------------------------------------------
 
-config-version: 3
+config-version: 4
 
 # The prefix displayed in front of every message.
 prefix: "&8[&9UltraRepair&8] &7"
@@ -46,3 +46,12 @@ repaired-hand: "&7The item in your hand has been repaired."
 
 # When the player's inventory has been successfully repaired.
 repaired-all: "&7Your inventory has been repaired."
+
+# If the item cannot be excluded/unexcluded from repair.
+exclude-unexclude-invalid: "&7You cannot exclude/unexclude this item from repair."
+
+# When an item has been successfully excluded from repair.
+exclude-success: "&7The item in your hand has been excluded from repair."
+
+# When an item has been successfully unexcluded from repair.
+unexclude-success: "&7The item in your hand has been unexcluded from repair."
