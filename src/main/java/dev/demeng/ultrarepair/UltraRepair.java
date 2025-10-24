@@ -6,6 +6,10 @@ import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.UpdateChecker;
 import dev.demeng.pluginbase.UpdateChecker.Result;
 import dev.demeng.pluginbase.YamlConfig;
+import dev.demeng.pluginbase.command.BaseExceptionHandler;
+import dev.demeng.pluginbase.lib.lamp.Lamp;
+import dev.demeng.pluginbase.lib.lamp.bukkit.BukkitLamp;
+import dev.demeng.pluginbase.lib.lamp.bukkit.actor.BukkitCommandActor;
 import dev.demeng.pluginbase.locale.reader.ConfigLocaleReader;
 import dev.demeng.pluginbase.plugin.BasePlugin;
 import dev.demeng.pluginbase.text.Text;
@@ -22,8 +26,6 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import revxrsal.commands.CommandHandler;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 public final class UltraRepair extends BasePlugin {
 
@@ -34,7 +36,7 @@ public final class UltraRepair extends BasePlugin {
   @Getter private YamlConfig menusFile;
 
   private static final int SETTINGS_VERSION = 2;
-  private static final int MESSAGES_VERSION = 4;
+  private static final int MESSAGES_VERSION = 5;
   private static final int MENUS_VERSION = 1;
 
   @Getter private boolean economyEnabled;
@@ -72,9 +74,12 @@ public final class UltraRepair extends BasePlugin {
     repairManager = new RepairManager(this);
 
     getLogger().info("Registering commands...");
-    final CommandHandler commandHandler = BukkitCommandHandler.create(this);
-    commandHandler.register(new UltraRepairCmd(this));
-    commandHandler.register(new RepairCmd(this));
+    final Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
+        .exceptionHandler(new BaseExceptionHandler())
+        .build();
+
+    lamp.register(new UltraRepairCmd(this));
+    lamp.register(new RepairCmd(this));
 
     getLogger().info("Registering listeners...");
 

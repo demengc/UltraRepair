@@ -10,57 +10,185 @@
 # Support: https://demeng.dev/discord
 # -----------------------------------------------------------------------------
 
-config-version: 4
+config-version: 5
 
 # The prefix displayed in front of every message.
-prefix: "&8[&9UltraRepair&8] &7"
-
-# General command-related messages.
-commands.invalid-subcommand: "&7Invalid subcommand: &b{0}"
-commands.no-permission: "&7You do not have permission to execute this command."
-commands.error-occurred: "&7An error occurred while executing this command."
-commands.too-many-arguments: "&7Too many arguments! Correct usage: &b/{0}"
-commands.must-be-player: "&7You must be a player to use this command!"
+prefix: "&8[&9&lUR&8] &r"
 
 # When config files are successfully reloaded.
-reloaded: "&7Configuration files have been reloaded."
+reloaded: "&aConfiguration files have been reloaded."
 
 # If the item cannot be repaired (is a block, has full durability, etc.).
-invalid-item: "&7You cannot repair this item."
+invalid-item: "&cYou cannot repair this item."
 
 # If there are no items to repair in the player's inventory.
-invalid-items: "&7There are no items to repair in your inventory."
+invalid-items: "&cThere are no items to repair in your inventory."
 
 # If the player's repair cooldown is still active.
-on-cooldown: "&7You must wait &b%time% &7before repairing again."
+on-cooldown: "&cYou must wait &e%time% &cbefore repairing again."
 
 # If the player does not have enough money to repair.
-insufficient-funds: "&7You need &b$%cost% &7to repair this item."
+insufficient-funds: "&cYou need &e%cost% &cto repair this item."
 
 # If the repair could not be confirmed for some reason.
 # This is usually because the repair cost has changed since the player has opened the confirm menu.
-confirm-failed: "&7Could not repair that item. Please try again."
+confirm-failed: "&cCould not repair that item. Please try again."
 
 # When the player's hand has been successfully repaired.
-repaired-hand: "&7The item in your hand has been repaired."
+repaired-hand: "&aThe item in your hand has been repaired."
 
 # When the player's inventory has been successfully repaired.
-repaired-all: "&7Your inventory has been repaired."
+repaired-all: "&aYour inventory has been repaired."
 
 # If the item cannot be excluded from repair (not repairable).
-exclude-invalid: "&7You cannot exclude this item from repair."
+exclude-invalid: "&cYou cannot exclude this item from repair."
 
 # If the item is already excluded from repair.
-exclude-already-excluded: "&7This item is already excluded from repair."
+exclude-already-excluded: "&cThis item is already excluded from repair."
 
 # If the item cannot be unexcluded from repair (not repairable).
-unexclude-invalid: "&7You cannot unexclude this item from repair."
+unexclude-invalid: "&cYou cannot unexclude this item from repair."
 
 # If the item is not excluded from repair (cannot unexclude).
-unexclude-not-excluded: "&7This item is not excluded from repair."
+unexclude-not-excluded: "&cThis item is not excluded from repair."
 
 # When an item has been successfully excluded from repair.
-exclude-success: "&7The item in your hand has been excluded from repair."
+exclude-success: "&aThe item in your hand has been excluded from repair."
 
 # When an item has been successfully unexcluded from repair.
-unexclude-success: "&7The item in your hand has been unexcluded from repair."
+unexclude-success: "&aThe item in your hand has been unexcluded from repair."
+
+# Generic error messages for commands. Note that not all messages are in use.
+commands:
+  # Invalid player input
+  # Placeholder: {0} = player input
+  invalid-player: "&cInvalid player: &e{0}&c."
+
+  # Invalid world input
+  # Placeholder: {0} = world input
+  invalid-world: "&cInvalid world: &e{0}&c."
+
+  # Missing location parameter (x, y, or z coordinate)
+  # Placeholder: {0} = axis name (x, y, or z)
+  missing-location-parameter: "&cExpected &e{0}&c."
+
+  # Sender is not console
+  sender-not-console: "&cYou must be the console to execute this command!"
+
+  # Sender is not a player
+  sender-not-player: "&cYou must be a player to execute this command!"
+
+  # Malformed entity selector
+  # Placeholders: {0} = input, {1} = error message
+  malformed-entity-selector: "&cMalformed entity selector: &e{0}&c. Error: &e{1}"
+
+  # Entity selector targets non-player entities
+  # Placeholder: {0} = selector input
+  non-player-entities: "&cEntity selector &e{0} &cmust only target players."
+
+  # Entity selector returned more than one entity when only one was expected
+  more-than-one-entity: "&cEntity selector must target only one entity."
+
+  # Entity selector returned no entities
+  empty-entity-selector: "&cNo entities were found."
+
+  # Invalid enum value
+  # Placeholder: {0} = invalid input
+  enum-not-found: "&cInvalid value: &e{0}&c."
+
+  # Expected a literal but got something else
+  # Placeholders: {0} = expected node name, {1} = actual input
+  expected-literal: "&cExpected &e{0}&c, found &e{1}&c."
+
+  input-parse:
+    # Invalid escape character in input
+    invalid-escape: "&cInvalid input. Use &e\\\\\\\\ &cto include a backslash."
+
+    # Unclosed quote in input
+    unclosed-quote: "&cUnclosed quote. Make sure to close all quotes."
+
+    # Expected whitespace after argument
+    expected-whitespace: "&cUnexpected text after argument."
+
+  invalid-list-size:
+    # List size too small
+    # Placeholders: {0} = minimum size, {1} = parameter name
+    too-small: "&cYou must input at least &e{0} &centries for &e{1}&c."
+
+    # List size too large
+    # Placeholders: {0} = maximum size, {1} = parameter name
+    too-large: "&cYou must input at most &e{0} &centries for &e{1}&c."
+
+  invalid-string-size:
+    # String too short
+    # Placeholders: {0} = parameter name, {1} = minimum length
+    too-small: "&cParameter &e{0} &cmust be at least &e{1} &ccharacters long."
+
+    # String too long
+    # Placeholders: {0} = parameter name, {1} = maximum length
+    too-large: "&cParameter &e{0} &ccan be at most &e{1} &ccharacters long."
+
+  # Invalid boolean value
+  # Placeholder: {0} = invalid input
+  invalid-boolean: "&cExpected &etrue &cor &efalse&c, found &e{0}&c."
+
+  # Invalid decimal/double value
+  # Placeholder: {0} = invalid input
+  invalid-decimal: "&cInvalid number: &e{0}&c."
+
+  # Invalid integer value
+  # Placeholder: {0} = invalid input
+  invalid-integer: "&cInvalid integer: &e{0}&c."
+
+  # Invalid UUID format
+  # Placeholder: {0} = invalid input
+  invalid-uuid: "&cInvalid UUID: &e{0}&c."
+
+  # Missing required argument
+  # Placeholders: {0} = parameter name, {1} = command usage
+  missing-argument: "&cRequired parameter is missing: &e{0}&c. Usage: &e/{1}&c."
+
+  # No permission to execute command
+  no-permission: "&cYou do not have permission to execute this command!"
+
+  number-not-in-range:
+    # Number too small
+    # Placeholders: {0} = parameter name, {1} = input value, {2} = minimum
+    too-small: "&c{0} too small &e({1})&c. Must be at least &e{2}&c."
+
+    # Number too large
+    # Placeholders: {0} = parameter name, {1} = input value, {2} = maximum
+    too-large: "&c{0} too large &e({1})&c. Must be at most &e{2}&c."
+
+  invalid-help-page:
+    # Invalid help page - only one page exists
+    # Placeholder: {0} = requested page number
+    single: "&cInvalid help page: &e{0}&c. Must be 1."
+
+    # Invalid help page - multiple pages exist
+    # Placeholders: {0} = requested page, {1} = total pages
+    multiple: "&cInvalid help page: &e{0}&c. Must be between &e1 &cand &e{1}&c."
+
+  # Unknown/non-existent command
+  # Placeholder: {0} = command input
+  unknown-command: "&cUnknown command: &e{0}&c."
+
+  # Value not in allowed list
+  # Placeholders: {0} = invalid value, {1} = allowed values (comma-separated)
+  value-not-allowed: "&cInvalid value: &e{0}&c. Allowed: &e{1}&c."
+
+  # Internal error occurred during command execution
+  internal-error: "&cAn error occurred while executing this command. Please contact an administrator."
+
+  unknown-parameter:
+    # Unknown shorthand flag (single character)
+    # Placeholder: {0} = flag name
+    shorthand: "&cUnknown shorthand flag: &e{0}&c."
+
+    # Unknown flag (full name)
+    # Placeholder: {0} = flag name
+    flag: "&cUnknown flag: &e{0}&c."
+
+  # Command is on cooldown
+  # Placeholder: {0} = time remaining (formatted duration)
+  cooldown: "&cYou must wait &e{0} &cbefore using this command again."

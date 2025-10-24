@@ -3,6 +3,8 @@ package dev.demeng.ultrarepair.command;
 import dev.demeng.pluginbase.Services;
 import dev.demeng.pluginbase.Time;
 import dev.demeng.pluginbase.Time.DurationFormatter;
+import dev.demeng.pluginbase.lib.lamp.annotation.Command;
+import dev.demeng.pluginbase.lib.lamp.bukkit.annotation.CommandPermission;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.ultrarepair.UltraRepair;
 import dev.demeng.ultrarepair.manager.RepairManager;
@@ -12,28 +14,22 @@ import lombok.RequiredArgsConstructor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @RequiredArgsConstructor
 public class RepairCmd {
 
   private final UltraRepair i;
 
-  @DefaultFor("repair")
-  @Command("repair hand")
+  @Command({"repair", "repair hand"})
   @CommandPermission("ultrarepair.repair.hand")
-  public String run(Player p) {
+  public void run(Player p) {
     attemptRepairHand(p, null);
-    return null;
   }
 
   @Command({"repairall", "repair all"})
   @CommandPermission("ultrarepair.repair.all")
-  public String runAll(Player p) {
+  public void runAll(Player p) {
     attemptRepairAll(p, null);
-    return null;
   }
 
   // If confirmedCost is null, the repair has not been confirmed.

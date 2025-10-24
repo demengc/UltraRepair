@@ -1,6 +1,9 @@
 package dev.demeng.ultrarepair.command;
 
 import dev.demeng.pluginbase.Common;
+import dev.demeng.pluginbase.lib.lamp.annotation.Command;
+import dev.demeng.pluginbase.lib.lamp.annotation.Subcommand;
+import dev.demeng.pluginbase.lib.lamp.bukkit.annotation.CommandPermission;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.ultrarepair.UltraRepair;
 import java.io.IOException;
@@ -9,10 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Subcommand;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @RequiredArgsConstructor
 @Command({"ultrarepair", "ur"})
@@ -20,7 +19,7 @@ public class UltraRepairCmd {
 
   private final UltraRepair i;
 
-  @DefaultFor({"ultrarepair", "ur"})
+  @Subcommand("info")
   public void runBase(CommandSender sender) {
     Text.coloredTell(sender, "&9&lRunning UltraRepair v" + Common.getVersion() + " by Demeng.");
     Text.coloredTell(sender, "&7Link: &bhttps://spigotmc.org/resources/63035/");
