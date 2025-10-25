@@ -51,6 +51,13 @@ public class UltraRepairCmd {
     Text.coloredTell(sender, "&r");
   }
 
+  @Subcommand("help")
+  public void runHelp(CommandSender sender) {
+    for (String line : i.getMessages().getStringList("help")) {
+      Text.coloredTell(sender, line);
+    }
+  }
+
   @Subcommand("reload")
   @CommandPermission("ultrarepair.reload")
   public String runReload(CommandSender sender) {

@@ -15,6 +15,20 @@ config-version: 5
 # The prefix displayed in front of every message.
 prefix: "&8[&9&lUR&8] &r"
 
+# When the list of commands are requested.
+help:
+  - ""
+  - "&9&lUltraRepair &8&l| &7Available Commands"
+  - ""
+  - " &8> &f/ur info &8- &7Display plugin info"
+  - " &8> &f/ur help &8- &7Display this help menu"
+  - " &8> &f/ur reload &8- &7Reload configuration"
+  - " &8> &f/ur exclude &8- &7Exclude held item from repair"
+  - " &8> &f/ur unexclude &8- &7Unexclude held item from repair"
+  - " &8> &f/repair &8- &7Repair item in hand"
+  - " &8> &f/repairall &8- &7Repair all items in inventory"
+  - ""
+
 # When config files are successfully reloaded.
 reloaded: "&aConfiguration files have been reloaded."
 
