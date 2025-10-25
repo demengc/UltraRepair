@@ -45,11 +45,13 @@ public class UltraRepairCmd {
 
   @Subcommand("info")
   public void runBase(CommandSender sender) {
+    Text.coloredTell(sender, "&r");
     Text.coloredTell(sender, "&9&lRunning UltraRepair v" + Common.getVersion() + " by Demeng.");
     Text.coloredTell(sender, "&7Link: &bhttps://spigotmc.org/resources/63035/");
+    Text.coloredTell(sender, "&r");
   }
 
-  @Subcommand({"reload", "rl"})
+  @Subcommand("reload")
   @CommandPermission("ultrarepair.reload")
   public String runReload(CommandSender sender) {
 
