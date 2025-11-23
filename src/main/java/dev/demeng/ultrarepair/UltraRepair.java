@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 Demeng Chen
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package dev.demeng.ultrarepair;
 
 import dev.demeng.pluginbase.BaseSettings;
@@ -6,6 +30,8 @@ import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.UpdateChecker;
 import dev.demeng.pluginbase.UpdateChecker.Result;
 import dev.demeng.pluginbase.YamlConfig;
+import dev.demeng.pluginbase.lib.lamp.Lamp;
+import dev.demeng.pluginbase.lib.lamp.bukkit.actor.BukkitCommandActor;
 import dev.demeng.pluginbase.locale.reader.ConfigLocaleReader;
 import dev.demeng.pluginbase.plugin.BasePlugin;
 import dev.demeng.pluginbase.text.Text;
@@ -22,8 +48,6 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import revxrsal.commands.CommandHandler;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 public final class UltraRepair extends BasePlugin {
 
@@ -34,7 +58,7 @@ public final class UltraRepair extends BasePlugin {
   @Getter private YamlConfig menusFile;
 
   private static final int SETTINGS_VERSION = 2;
-  private static final int MESSAGES_VERSION = 4;
+  private static final int MESSAGES_VERSION = 5;
   private static final int MENUS_VERSION = 1;
 
   @Getter private boolean economyEnabled;
@@ -72,9 +96,10 @@ public final class UltraRepair extends BasePlugin {
     repairManager = new RepairManager(this);
 
     getLogger().info("Registering commands...");
-    final CommandHandler commandHandler = BukkitCommandHandler.create(this);
-    commandHandler.register(new UltraRepairCmd(this));
-    commandHandler.register(new RepairCmd(this));
+    final Lamp<BukkitCommandActor> lamp = createCommandHandler().build();
+
+    lamp.register(new UltraRepairCmd(this));
+    lamp.register(new RepairCmd(this));
 
     getLogger().info("Registering listeners...");
 

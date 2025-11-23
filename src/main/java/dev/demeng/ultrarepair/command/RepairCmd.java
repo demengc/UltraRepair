@@ -1,8 +1,34 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 Demeng Chen
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package dev.demeng.ultrarepair.command;
 
 import dev.demeng.pluginbase.Services;
 import dev.demeng.pluginbase.Time;
 import dev.demeng.pluginbase.Time.DurationFormatter;
+import dev.demeng.pluginbase.lib.lamp.annotation.Command;
+import dev.demeng.pluginbase.lib.lamp.bukkit.annotation.CommandPermission;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.ultrarepair.UltraRepair;
 import dev.demeng.ultrarepair.manager.RepairManager;
@@ -12,28 +38,22 @@ import lombok.RequiredArgsConstructor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @RequiredArgsConstructor
 public class RepairCmd {
 
   private final UltraRepair i;
 
-  @DefaultFor("repair")
-  @Command("repair hand")
+  @Command({"repair", "repair hand"})
   @CommandPermission("ultrarepair.repair.hand")
-  public String run(Player p) {
+  public void run(Player p) {
     attemptRepairHand(p, null);
-    return null;
   }
 
   @Command({"repairall", "repair all"})
   @CommandPermission("ultrarepair.repair.all")
-  public String runAll(Player p) {
+  public void runAll(Player p) {
     attemptRepairAll(p, null);
-    return null;
   }
 
   // If confirmedCost is null, the repair has not been confirmed.

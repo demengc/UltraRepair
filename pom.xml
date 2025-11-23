@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.2.5</version>
+  <version>4.3.0</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -14,7 +14,7 @@
   <description>Advanced item repairing with per-item customization, costs, cooldowns, and more.
   </description>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <url>https://demeng.dev/</url>
@@ -23,10 +23,6 @@
     <repository>
       <id>spigotmc-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-    </repository>
-    <repository>
-      <id>vault-repo</id>
-      <url>http://nexus.hc.to/content/repositories/pub_releases</url>
     </repository>
     <repository>
       <id>jitpack.io</id>
@@ -42,11 +38,11 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.21.4-R0.1-SNAPSHOT</version>
+      <version>1.21.10-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>net.milkbowl.vault</groupId>
+      <groupId>com.github.MilkBowl</groupId>
       <artifactId>VaultAPI</artifactId>
       <version>1.7</version>
       <scope>provided</scope>
@@ -54,43 +50,31 @@
     <dependency>
       <groupId>com.github.demengc.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>fbf1bc4335</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.demengc.PluginBase-Lamp</groupId>
-      <artifactId>common</artifactId>
-      <version>6fcd5fb3aa</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.demengc.PluginBase-Lamp</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>6fcd5fb3aa</version>
+      <version>v1.35.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bananapuncher714</groupId>
       <artifactId>nbteditor</artifactId>
-      <version>7.19.9</version>
+      <version>7.19.11</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bstats</groupId>
       <artifactId>bstats-bukkit</artifactId>
-      <version>3.0.2</version>
+      <version>3.1.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>24.1.0</version>
+      <version>26.0.2-1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.30</version>
+      <version>1.18.42</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -101,23 +85,20 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.14.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>1.18.30</version>
-            </path>
-          </annotationProcessorPaths>
+          <compilerArgs>
+            <!-- Preserves parameter names -->
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -131,10 +112,6 @@
                 <relocation>
                   <pattern>dev.demeng.pluginbase</pattern>
                   <shadedPattern>dev.demeng.ultrarepair.shaded.pluginbase</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>revxrsal.commands</pattern>
-                  <shadedPattern>dev.demeng.ultrarepair.shaded.pluginbase.commands</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>io.github.bananapuncher714.nbteditor</pattern>
