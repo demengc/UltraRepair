@@ -60,7 +60,7 @@ public class UltraRepairCmd {
 
   @Subcommand("reload")
   @CommandPermission("ultrarepair.reload")
-  public String runReload(CommandSender sender) {
+  public void runReload(CommandSender sender) {
 
     try {
       i.getSettingsFile().reload();
@@ -68,48 +68,52 @@ public class UltraRepairCmd {
       i.getMenusFile().reload();
     } catch (IOException | InvalidConfigurationException ex) {
       Common.error(ex, "Failed to reload files.", false, sender);
-      return null;
+      return;
     }
 
     i.updateBaseSettings();
     i.getRepairManager().reload();
 
-    return i.getMessages().getString("reloaded");
+    Text.tell(sender, i.getMessages().getString("reloaded"));
   }
 
   @Subcommand("exclude")
   @CommandPermission("ultrarepair.exclude")
-  public String runExclude(Player player) {
+  public void runExclude(Player player) {
 
     final ItemStack hand = player.getItemInHand();
 
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
-      return i.getMessages().getString("exclude-invalid");
+      Text.tell(player, i.getMessages().getString("exclude-invalid"));
+      return;
     }
 
     if (i.getRepairManager().hasExclusionTag(hand)) {
-      return i.getMessages().getString("exclude-already-excluded");
+      Text.tell(player, i.getMessages().getString("exclude-already-excluded"));
+      return;
     }
 
     player.setItemInHand(i.getRepairManager().addExclusionTag(hand));
-    return i.getMessages().getString("exclude-success");
+    Text.tell(player, i.getMessages().getString("exclude-success"));
   }
 
   @Subcommand("unexclude")
   @CommandPermission("ultrarepair.exclude")
-  public String runUnexclude(Player player) {
+  public void runUnexclude(Player player) {
 
     final ItemStack hand = player.getItemInHand();
 
     if (!i.getRepairManager().isPotentiallyRepairable(hand)) {
-      return i.getMessages().getString("unexclude-invalid");
+      Text.tell(player, i.getMessages().getString("unexclude-invalid"));
+      return;
     }
 
     if (!i.getRepairManager().hasExclusionTag(hand)) {
-      return i.getMessages().getString("unexclude-not-excluded");
+      Text.tell(player, i.getMessages().getString("unexclude-not-excluded"));
+      return;
     }
 
     player.setItemInHand(i.getRepairManager().removeExclusionTag(hand));
-    return i.getMessages().getString("unexclude-success");
+    Text.tell(player, i.getMessages().getString("unexclude-success"));
   }
 }
