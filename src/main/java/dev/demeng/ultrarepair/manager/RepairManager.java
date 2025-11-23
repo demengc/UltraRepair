@@ -127,29 +127,29 @@ public class RepairManager {
       return false;
     }
 
-    return NBTEditor.contains(stack, EXCLUDE_NBT_TAG);
+    return NBTEditor.contains(stack, NBTEditor.CUSTOM_DATA, EXCLUDE_NBT_TAG);
   }
 
   public ItemStack addExclusionTag(ItemStack stack) {
 
     if (stack == null
         || stack.getType() == Material.AIR
-        || NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
+        || NBTEditor.contains(stack, NBTEditor.CUSTOM_DATA, EXCLUDE_NBT_TAG)) {
       return stack;
     }
 
-    return NBTEditor.set(stack, true, EXCLUDE_NBT_TAG);
+    return NBTEditor.set(stack, true, NBTEditor.CUSTOM_DATA, EXCLUDE_NBT_TAG);
   }
 
   public ItemStack removeExclusionTag(ItemStack stack) {
 
     if (stack == null
         || stack.getType() == Material.AIR
-        || !NBTEditor.contains(stack, EXCLUDE_NBT_TAG)) {
+        || !NBTEditor.contains(stack, NBTEditor.CUSTOM_DATA, EXCLUDE_NBT_TAG)) {
       return stack;
     }
 
-    return NBTEditor.set(stack, NBTEditor.DELETE, EXCLUDE_NBT_TAG);
+    return NBTEditor.set(stack, NBTEditor.DELETE, NBTEditor.CUSTOM_DATA, EXCLUDE_NBT_TAG);
   }
 
   public boolean hasAnyRepairable(Player p) {
