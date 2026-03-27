@@ -29,20 +29,23 @@ import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.Services;
 import dev.demeng.pluginbase.Sounds;
 import dev.demeng.pluginbase.lib.xseries.XSound;
-import dev.demeng.pluginbase.serialize.ItemSerializer;
+import dev.demeng.pluginbase.text.Text;
 import dev.demeng.ultrarepair.UltraRepair;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class RepairManager {
 
@@ -51,9 +54,51 @@ public class RepairManager {
 
   private static final String EXCLUDE_NBT_TAG = "ultrarepair:exclude";
 
+  private record CostException(Material material, String name, List<String> lore,
+                               Integer customModelData, Map<Enchantment, Integer> enchants,
+                               double cost) {
+
+    boolean matches(ItemStack stack) {
+        if (stack.getType() != material) {
+          return false;
+        }
+
+        final ItemMeta meta = stack.getItemMeta();
+
+        if (name != null) {
+          if (meta == null || !meta.hasDisplayName() || !meta.getDisplayName().equals(name)) {
+            return false;
+          }
+        }
+
+        if (lore != null) {
+          if (meta == null || !meta.hasLore() || !lore.equals(meta.getLore())) {
+            return false;
+          }
+        }
+
+        if (customModelData != null) {
+          if (meta == null || !meta.hasCustomModelData()
+              || meta.getCustomModelData() != customModelData.intValue()) {
+            return false;
+          }
+        }
+
+        if (enchants != null) {
+          for (Entry<Enchantment, Integer> entry : enchants.entrySet()) {
+            if (stack.getEnchantmentLevel(entry.getKey()) != entry.getValue()) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
+    }
+
   private final UltraRepair i;
   private final Map<Player, Long> cooldowns = new HashMap<>();
-  private final Map<ItemStack, Double> costExceptions = new HashMap<>();
+  private final List<CostException> costExceptions = new ArrayList<>();
 
   private long handCooldown;
   private long allCooldown;
@@ -81,9 +126,45 @@ public class RepairManager {
         "Cost exceptions section is null");
 
     for (String key : section.getKeys(false)) {
-      costExceptions.put(ItemSerializer.deserialize(
-              Objects.requireNonNull(section.getConfigurationSection(key))),
-          section.getDouble(key + ".cost"));
+      final ConfigurationSection entry = Objects.requireNonNull(
+          section.getConfigurationSection(key));
+
+      final Material material = Objects.requireNonNull(
+          Material.matchMaterial(Objects.requireNonNull(entry.getString("material"))),
+          "Invalid material in cost exception: " + key);
+
+      String name = null;
+      if (entry.contains("name")) {
+        name = Text.colorize(Objects.requireNonNull(entry.getString("name")));
+      }
+
+      List<String> lore = null;
+      if (entry.contains("lore")) {
+        lore = new ArrayList<>();
+        for (String line : entry.getStringList("lore")) {
+          lore.add(Text.colorize(line));
+        }
+      }
+
+      Integer customModelData = null;
+      if (Common.isServerVersionAtLeast(14) && entry.contains("custom-model-data")) {
+        customModelData = entry.getInt("custom-model-data");
+      }
+
+      Map<Enchantment, Integer> enchants = null;
+      final ConfigurationSection enchantsSection = entry.getConfigurationSection("enchants");
+      if (enchantsSection != null) {
+        enchants = new HashMap<>();
+        for (String enchantKey : enchantsSection.getKeys(false)) {
+          final Enchantment enchantment = Objects.requireNonNull(
+              Enchantment.getByName(enchantKey),
+              "Invalid enchantment in cost exception " + key + ": " + enchantKey);
+          enchants.put(enchantment, enchantsSection.getInt(enchantKey));
+        }
+      }
+
+      costExceptions.add(new CostException(material, name, lore, customModelData, enchants,
+          entry.getDouble("cost")));
     }
 
     this.handSound = XSound.matchXSound(Objects.requireNonNull(
@@ -212,14 +293,11 @@ public class RepairManager {
       return 0;
     }
 
-    final ItemStack copy = new ItemStack(stack);
-    copy.setDurability((short) 0);
-
     double cost = defaultCost;
 
-    for (Map.Entry<ItemStack, Double> entry : costExceptions.entrySet()) {
-      if (entry.getKey().isSimilar(copy)) {
-        cost = entry.getValue();
+    for (CostException exception : costExceptions) {
+      if (exception.matches(stack)) {
+        cost = exception.cost;
         break;
       }
     }

@@ -34,24 +34,31 @@ default-cost: 10.00
 # Example: If repairing 5 durability, and multiplier is 2, $10 will be ADDED to the base cost.
 durability-multiplier: 0.00
 
-# Items that are exceptions to the default cost. See below for examples.
+# Override the default repair cost for specific items.
+# Each exception requires "material" and "cost". All other fields are optional conditions.
+# Only the conditions you specify are checked: an item matches as long as it meets every listed
+# condition, regardless of any other properties it may have.
+#
+# Supported conditions:
+#   material     - (required) The item type. Uses Bukkit material names.
+#   cost         - (required) The repair cost to use instead of default-cost.
+#   name         - Display name, supports color codes (&b, &c, etc.).
+#   lore         - List of lore lines, supports color codes.
+#   custom-model-data - Custom model data value (Minecraft 1.14+ only, ignored on older versions).
+#   enchants     - Map of enchantment names to required levels. Uses Bukkit enchantment names
+#                  (e.g. DURABILITY for Unbreaking, DAMAGE_ALL for Sharpness). The item may have
+#                  additional enchantments beyond those listed here.
 cost-exceptions:
-  # You can add unlimited exceptions, but they must be named differently. (Item1, Item2, etc...)
-  # ALL EXCEPTIONS MUST HAVE "material" AND "cost" VALUES.
-  # If you do not want a condition (ex. enchants), simply delete the section/line.
-  Item1:
-    # An exception for flint and steel.
+  # Simple example: all flint and steel items cost $5 to repair.
+  flint-and-steel:
     material: "FLINT_AND_STEEL"
-    # The special cost to repair this item.
-    cost: 20.00
-    # Additional conditions for this exception are listed below.
-    # The flint and steel also must be named "Special Flint and Steel", in aqua (&b) color.
+    cost: 5.00
+  # Advanced example: only a specifically named diamond sword with certain enchantments.
+  special-sword:
+    material: "DIAMOND_SWORD"
+    cost: 50.00
     name: "&bSpecial Sword"
-    # Custom model data (Minecraft 1.14+) of 3 is required.
     custom-model-data: 3
-    # A list of required enchantments and its level.
     enchants:
-      # Unbreaking I
       DURABILITY: 1
-      # Sharpness III
       DAMAGE_ALL: 3
