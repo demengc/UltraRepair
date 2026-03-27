@@ -6,7 +6,7 @@
 # |______/  |____|_  /
 #                  \/
 # |
-# MESSAGES.YML - Locale settings for the plugin.
+# MESSAGES.YML - Plugin messages and language configuration.
 # Support: https://demeng.dev/discord
 # -----------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ exclude-success: "&aThe item in your hand has been excluded from repair."
 # When an item has been successfully unexcluded from repair.
 unexclude-success: "&aThe item in your hand has been unexcluded from repair."
 
-# Generic error messages for commands. Note that not all messages are in use.
+# Error messages used by the command framework. These use {0}, {1}, etc. for placeholders.
 commands:
   # Invalid player input
   # Placeholder: {0} = player input

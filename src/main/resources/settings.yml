@@ -20,7 +20,8 @@ cooldown:
   # The cooldown for inventory repairs.
   all: 10
 
-# The sound played when a repair is completed.
+# The sound played when a repair is completed. Uses Bukkit sound names.
+# See: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
 sound:
   hand: "BLOCK_ANVIL_USE"
   all: "BLOCK_ANVIL_USE"
