@@ -45,16 +45,16 @@ public class UltraRepairCmd {
 
   @Subcommand("info")
   public void runBase(CommandSender sender) {
-    Text.coloredTell(sender, "&r");
-    Text.coloredTell(sender, "&9&lRunning UltraRepair v" + Common.getVersion() + " by Demeng.");
-    Text.coloredTell(sender, "&7Link: &bhttps://spigotmc.org/resources/63035/");
-    Text.coloredTell(sender, "&r");
+    Text.tellRaw(sender, "&r");
+    Text.tellRaw(sender, "&9&lRunning UltraRepair v" + Common.getVersion() + " by Demeng.");
+    Text.tellRaw(sender, "&7Link: &bhttps://spigotmc.org/resources/63035/");
+    Text.tellRaw(sender, "&r");
   }
 
   @Subcommand("help")
   public void runHelp(CommandSender sender) {
     for (String line : i.getMessages().getStringList("help")) {
-      Text.coloredTell(sender, line);
+      Text.tellRaw(sender, line);
     }
   }
 

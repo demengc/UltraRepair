@@ -70,7 +70,7 @@ public final class UltraRepair extends BasePlugin {
 
     setInstance(this);
 
-    Text.coloredConsole("\n\n"
+    Text.consoleRaw("\n\n"
         + "&1 ____ ___  __________ \n"
         + "&1|    |   \\ \\______   \\\n"
         + "&1|    |   /  |       _/\n"
@@ -196,12 +196,12 @@ public final class UltraRepair extends BasePlugin {
       final UpdateChecker checker = new UpdateChecker(63035);
 
       if (checker.getResult() == Result.OUTDATED) {
-        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
-        Text.coloredConsole("&aA newer version of UltraRepair is available!");
-        Text.coloredConsole("&aCurrent version: &r" + Common.getVersion());
-        Text.coloredConsole("&aLatest version: &r" + checker.getLatestVersion());
-        Text.coloredConsole("&aGet the update: &rhttps://spigotmc.org/resources/63035");
-        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
+        Text.consoleRaw("&2" + Text.CONSOLE_LINE);
+        Text.consoleRaw("&aA newer version of UltraRepair is available!");
+        Text.consoleRaw("&aCurrent version: &r" + Common.getVersion());
+        Text.consoleRaw("&aLatest version: &r" + checker.getLatestVersion());
+        Text.consoleRaw("&aGet the update: &rhttps://spigotmc.org/resources/63035");
+        Text.consoleRaw("&2" + Text.CONSOLE_LINE);
         return;
       }
 

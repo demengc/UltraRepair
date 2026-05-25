@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>ultrarepair</artifactId>
-  <version>4.4.0</version>
+  <version>4.4.1</version>
   <packaging>jar</packaging>
 
   <name>UltraRepair</name>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.21.11-R0.1-SNAPSHOT</version>
+      <version>26.1.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -48,15 +48,15 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.demengc.PluginBase</groupId>
+      <groupId>dev.demeng.pluginbase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>v1.36.1</version>
+      <version>1.38.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bananapuncher714</groupId>
       <artifactId>nbteditor</artifactId>
-      <version>7.20.2</version>
+      <version>8.0.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
