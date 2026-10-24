@@ -147,7 +147,7 @@ public class RepairManager {
       }
 
       Integer customModelData = null;
-      if (Common.isServerVersionAtLeast(14) && entry.contains("custom-model-data")) {
+      if (Common.isServerVersionAtLeast(1, 14) && entry.contains("custom-model-data")) {
         customModelData = entry.getInt("custom-model-data");
       }
 
@@ -182,7 +182,7 @@ public class RepairManager {
   public boolean isPotentiallyRepairable(ItemStack stack) {
     return stack != null
         && stack.getType() != Material.AIR
-        && (!Common.isServerVersionAtLeast(13) || !stack.getType().isAir())
+        && (!Common.isServerVersionAtLeast(1, 13) || !stack.getType().isAir())
         && !stack.getType().isBlock()
         && !stack.getType().isEdible()
         && stack.getType().getMaxDurability() > 0;
@@ -371,7 +371,7 @@ public class RepairManager {
     }
 
     // MC 1.8's getContents() does not contain armor slots
-    if (Common.getServerMajorVersion() == 8) {
+    if (!Common.isServerVersionAtLeast(1, 9)) {
       for (ItemStack stack : p.getInventory().getArmorContents()) {
         if (stack != null && stack.getType() != Material.AIR) {
           contents.add(stack);
